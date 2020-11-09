@@ -44,3 +44,9 @@ export interface ChangePasswordRequest {
   newPassword: string;
   newPasswordConfirmation: string;
 }
+
+export interface WriterRequest {
+  job: string;
+  education: string;
+  biography: string;
+}

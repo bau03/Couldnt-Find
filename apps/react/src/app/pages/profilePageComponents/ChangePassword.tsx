@@ -20,6 +20,7 @@ export const ChangePassword = () => {
   const onChange = () => {
     const secondPassword = getValues()['newPassword'];
     const confirmationPassword = getValues()['newPasswordConfirmation'];
+    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
     if (secondPassword !== confirmationPassword) {
       setPasswordError('Şifre Eşleşmedi');
       dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
@@ -41,7 +42,7 @@ export const ChangePassword = () => {
             Old Password
           </Form.Label>
           <Col sm={4}>
-            <Input type="password" name="oldPassword" placeholder="Old Password" ref={register({ required: true })} errors={errors} />
+            <Input type="password" name="oldPassword" placeholder="Old Password" onChange={onChange} ref={register({ required: true })} errors={errors} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} controlId="newPassword">

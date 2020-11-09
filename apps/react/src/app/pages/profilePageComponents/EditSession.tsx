@@ -35,7 +35,7 @@ export const EditSession = () => {
     setSessionInfo(!sessionInfo);
     setSameAccount(false);
   };
-
+console.log(detail)
   return (
     <Container>
       <h5>

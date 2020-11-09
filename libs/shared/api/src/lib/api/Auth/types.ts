@@ -6,6 +6,7 @@ export interface UserDetailResponse {
   phoneNumber: string;
   age: string;
   image: string;
+  authorities:string;
 }
 
 export interface  SessionDetailResponse {

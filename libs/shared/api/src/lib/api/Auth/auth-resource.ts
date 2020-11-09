@@ -7,6 +7,7 @@ import {
   LogoutRequest,
   RegisterRequest,
   ResetPasswordRequest,
+  WriterRequest
 } from '@internship/shared/types';
 
 export class AuthResource {
@@ -37,5 +38,7 @@ export class AuthResource {
         },
       })
       .then((r) => r.data);
-  sendActivation = (data: string): Promise<string> => this.axios.get('auth/send-email?email=' + data, this.axiosRequestConfig);
+  sendActivation = (data: string): Promise<string> => this.axios.get('auth/send-email?email=' + data, this.axiosRequestConfig)
+  writerUser = (data: WriterRequest): Promise<any> => this.axios.post('user/writer', data, this.axiosRequestConfig).then((r) => r.data);
+
 }

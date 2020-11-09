@@ -6,7 +6,7 @@ import {
   changePasswordAsync,
   resetpasswordAsync,
   updateAsync,
-  updateLogout
+  updateLogout, writerAsync
 } from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { api } from '@internship/shared/api';
@@ -20,6 +20,15 @@ function* doLogin({ payload }) {
   } catch (e) {
     console.error(e);
     yield put(loginAsync.failure(e));
+  }
+}
+function* doWriter({ payload }) {
+  try {
+    yield call(api.auth.writerUser, payload);
+    yield put(writerAsync.success({}));
+  } catch (e) {
+    console.error(e);
+    yield put(writerAsync.failure(e));
   }
 }
 function* doResetPassword({ payload }) {
@@ -99,6 +108,9 @@ function* doChangePassword({ payload }) {
 function* watchLogin() {
   yield takeLatest(loginAsync.request, doLogin);
 }
+function* watchWriter() {
+  yield takeLatest(writerAsync.request, doWriter);
+}
 function* watchResetPassword() {
   yield takeLatest(resetpasswordAsync.request, doResetPassword);
 }
@@ -132,5 +144,6 @@ export function* authenticationSaga() {
     fork(watchResetPassword),
     fork(watchChangePassword),
     fork(watchUpdateLogout),
+    fork(watchWriter),
   ]);
 }

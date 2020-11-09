@@ -21,6 +21,9 @@ const success = {
   'auth/send-email': {
     '200': 'Aktivasyon kodunuz gönderildi.'
   },
+  'user/writer': {
+    '200': 'Başvurunuz alınmıştır.'
+  },
 };
 export const successInterceptor = (res: AxiosResponse) => {
   let successMessage = null;
@@ -31,6 +34,9 @@ export const successInterceptor = (res: AxiosResponse) => {
   }
   else if(res?.config.url.startsWith('auth/send-email') && res?.status === 200){
     successMessage = success['auth/send-email']['200'];
+  }
+  else if(res?.config.url.startsWith('user/writer') && res?.status === 200){
+    successMessage = success['user/writer']['200'];
   }
     window['UGLY_STORE'].dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: successMessage });
   return res;

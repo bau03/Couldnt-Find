@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { EditProfile, ChangePassword, EditSession } from './profilePageComponents';
+import { EditProfile, ChangePassword, EditSession,Writer } from './profilePageComponents';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { api, UserDetailResponse } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
@@ -14,6 +14,7 @@ export const Profile = () => {
   const [inChangePassword, setInChangePassword] = useState(false);
   const [editUserInfo, setEditUserInfo] = useState(false);
   const [sessionInfo, setSessionInfo] = useState(false);
+  const [writerInfo,setWriterInfo]=useState(false);
   const [detail, setDetail] = useState<UserDetailResponse>();
   const { isAuthenticated } = useAuthentication();
   const history = useHistory();
@@ -25,6 +26,8 @@ export const Profile = () => {
       .catch((e) => console.error(e));
     setEditUserInfo(false);
   }, [editUserInfo]);
+  console.log(detail?.authorities[0]['authority']);
+
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -36,6 +39,7 @@ export const Profile = () => {
     setInEditMode(true);
     setInChangePassword(false);
     setSessionInfo(false);
+    setWriterInfo(false);
     dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
   };
@@ -45,6 +49,12 @@ export const Profile = () => {
     setSessionInfo(true);
     setInChangePassword(false);
     setInEditMode(false);
+  };
+  const editWriterInfo = () => {
+    setSessionInfo(false);
+    setInChangePassword(false);
+    setInEditMode(false);
+    setWriterInfo(true);
   };
 
   return (
@@ -102,6 +112,23 @@ export const Profile = () => {
             <Button className="btn  btn-success mt-2" disabled={sessionInfo} onClick={editSessionInfo}>
               Session Info
             </Button>
+            {detail?.authorities[0]['authority']==='ROLE_USER' ? (
+              <>
+                <Button className="btn  btn-success mt-2" disabled={writerInfo} onClick={editWriterInfo}>
+                  Become a writer
+                </Button>
+              </>
+            ) : null}
+            {detail?.authorities[0]['authority']==='ROLE_PM' ? (
+              <>
+                <>
+                  <Button className="btn  btn-success mt-2" disabled={writerInfo} onClick={editWriterInfo}>
+                    Yeni Konu Oluştur
+                  </Button>
+                </>
+              </>
+            ) : null}
+
           </div>
         </Col>
         <Col sm={6}>
@@ -143,6 +170,15 @@ export const Profile = () => {
                 <FontAwesomeIcon icon={faTimes} />
               </Button>
               <EditSession />
+            </>
+          ) : null}
+
+          {writerInfo  ? (
+            <>
+              <Button className="btn btn-danger mb-3" disabled={!writerInfo} onClick={() => setWriterInfo(false)}>
+                <FontAwesomeIcon icon={faTimes} />
+              </Button>
+              <Writer/>
             </>
           ) : null}
         </Col>
