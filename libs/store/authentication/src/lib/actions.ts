@@ -7,7 +7,9 @@ import {
   LogoutRequest,
   RegisterRequest,
   ResetPasswordRequest,
-  UpdateRequest, WriterRequest
+  RoleUpdateRequest,
+  UpdateRequest,
+  WriterRequest,
 } from '@internship/shared/types';
 
 export const loginAsync = createAsyncAction('@Authentication/LOGIN_REQUEST', '@Authentication/LOGIN_SUCCESS', '@Authentication/LOGIN_FAILURE')<
@@ -22,11 +24,11 @@ export const forgotpasswordAsync = createAsyncAction(
   '@Authentication/FORGOTPASSWORD_FAILURE'
 )<ForgotPasswordRequest, any, AxiosError>();
 
-export const writerAsync = createAsyncAction(
-  '@Authentication/WRİTER_REQUEST',
-  '@Authentication/WRİTER_SUCCESS',
-  '@Authentication/WRİTER_FAILURE'
-)<WriterRequest, any, AxiosError>();
+export const writerAsync = createAsyncAction('@Authentication/WRİTER_REQUEST', '@Authentication/WRİTER_SUCCESS', '@Authentication/WRİTER_FAILURE')<
+  WriterRequest,
+  any,
+  AxiosError
+>();
 
 export const registerAsync = createAsyncAction(
   '@Authentication/REGISTER_REQUEST',
@@ -39,6 +41,12 @@ export const updateAsync = createAsyncAction('@Authentication/UPDATE_REQUEST', '
   any,
   AxiosError
 >();
+export const roleupdateAsync = createAsyncAction(
+  '@Authentication/ROLEUPDATE_REQUEST',
+  '@Authentication/ROLEUPDATE_SUCCESS',
+  '@Authentication/ROLEUPDATE_FAILURE'
+)<RoleUpdateRequest, any, AxiosError>();
+
 export const logoutAsync = createAsyncAction('@Authentication/LOGOUT_REQUEST', '@Authentication/LOGOUT_SUCCESS', '@Authentication/LOGOUT_FAILURE')<
   LogoutRequest,
   any,

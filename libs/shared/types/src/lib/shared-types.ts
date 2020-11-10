@@ -18,6 +18,10 @@ export interface UpdateRequest {
   password?: string;
 }
 
+export interface RoleUpdateRequest {
+  id: string;
+}
+
 export interface RegisterRequest {
   username: string;
   email: string;
@@ -29,8 +33,8 @@ export interface ForgotPasswordRequest {
 }
 
 export interface LogoutRequest {
-  accessToken:string;
-  refreshToken:string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface ResetPasswordRequest {

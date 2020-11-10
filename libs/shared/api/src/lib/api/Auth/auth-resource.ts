@@ -1,5 +1,5 @@
 import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { SessionDetailResponse, UserDetailResponse } from './types';
+import { SessionDetailResponse, UserDetailResponse, WriterDetailResponse } from './types';
 import {
   ChangePasswordRequest,
   ForgotPasswordRequest,
@@ -7,7 +7,7 @@ import {
   LogoutRequest,
   RegisterRequest,
   ResetPasswordRequest,
-  WriterRequest
+  WriterRequest,
 } from '@internship/shared/types';
 
 export class AuthResource {
@@ -26,7 +26,7 @@ export class AuthResource {
   changePassword = (data: ChangePasswordRequest): Promise<any> =>
     this.axios.post('user/change-password', data, this.axiosRequestConfig).then((r) => r.data);
   sessionDetail = (): Promise<SessionDetailResponse[]> => this.axios.get('/user/active-sessions', this.axiosRequestConfig).then((r) => r.data);
-  deleteSession = (authorizationToken: string, refreshToken: string, accessToken:string): Promise<any> =>
+  deleteSession = (authorizationToken: string, refreshToken: string, accessToken: string): Promise<any> =>
     this.axios
       .delete('/user/logout-from-session', {
         headers: {
@@ -34,11 +34,12 @@ export class AuthResource {
         },
         params: {
           token: refreshToken,
-          accessToken:accessToken,
+          accessToken: accessToken,
         },
       })
       .then((r) => r.data);
-  sendActivation = (data: string): Promise<string> => this.axios.get('auth/send-email?email=' + data, this.axiosRequestConfig)
+  sendActivation = (data: string): Promise<string> => this.axios.get('auth/send-email?email=' + data, this.axiosRequestConfig);
   writerUser = (data: WriterRequest): Promise<any> => this.axios.post('user/writer', data, this.axiosRequestConfig).then((r) => r.data);
-
+  writerDetail = (): Promise<WriterDetailResponse> => this.axios.get('user/writer/detail', this.axiosRequestConfig).then((r) => r.data);
+  userRoleUpdate = (data: any): Promise<any> => this.axios.put('user/writer/edit', data, this.axiosRequestConfig).then((r) => r.data);
 }

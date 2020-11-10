@@ -8,6 +8,14 @@ export interface UserDetailResponse {
   image: string;
   authorities:string;
 }
+export interface WriterDetailResponse {
+  id: string;
+  job: string;
+  education: string;
+  biography: string;
+  timestap: string;
+  user:string;
+}
 
 export interface  SessionDetailResponse {
   refreshToken: string;

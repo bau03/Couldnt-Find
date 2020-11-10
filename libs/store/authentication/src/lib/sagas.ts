@@ -6,7 +6,9 @@ import {
   changePasswordAsync,
   resetpasswordAsync,
   updateAsync,
-  updateLogout, writerAsync
+  updateLogout,
+  writerAsync,
+  roleupdateAsync,
 } from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { api } from '@internship/shared/api';
@@ -85,13 +87,23 @@ function* doRegister({ payload }) {
 
 function* doUpdate({ payload }) {
   try {
-   /* let requestData = {};
+    /* let requestData = {};
     Object.entries(payload).forEach(([key, value]) => (value !== '' ? (requestData = { ...requestData, [key]: value }) : null));*/
     yield call(api.auth.update, payload);
     yield put(updateAsync.success({}));
   } catch (e) {
     console.error(e);
     yield put(updateAsync.failure(e));
+  }
+}
+
+function* doUserRoleUpdate({ payload }) {
+  try {
+    yield call(api.auth.userRoleUpdate, payload);
+    yield put(roleupdateAsync.success({}));
+  } catch (e) {
+    console.error(e);
+    yield put(roleupdateAsync.failure(e));
   }
 }
 
@@ -127,6 +139,9 @@ function* watchRegister() {
 function* watchUpdate() {
   yield takeLatest(updateAsync.request, doUpdate);
 }
+function* watchRoleUpdate() {
+  yield takeLatest(roleupdateAsync.request, doUserRoleUpdate);
+}
 function* watchChangePassword() {
   yield takeLatest(changePasswordAsync.request, doChangePassword);
 }
@@ -145,5 +160,6 @@ export function* authenticationSaga() {
     fork(watchChangePassword),
     fork(watchUpdateLogout),
     fork(watchWriter),
+    fork(watchRoleUpdate),
   ]);
 }

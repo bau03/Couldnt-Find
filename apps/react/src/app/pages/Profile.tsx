@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { EditProfile, ChangePassword, EditSession,Writer } from './profilePageComponents';
+import { AdminWriterConfirmation, EditProfile, ChangePassword, EditSession, Writer } from './profilePageComponents';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { api, UserDetailResponse } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
@@ -14,7 +14,7 @@ export const Profile = () => {
   const [inChangePassword, setInChangePassword] = useState(false);
   const [editUserInfo, setEditUserInfo] = useState(false);
   const [sessionInfo, setSessionInfo] = useState(false);
-  const [writerInfo,setWriterInfo]=useState(false);
+  const [writerInfo, setWriterInfo] = useState(false);
   const [detail, setDetail] = useState<UserDetailResponse>();
   const { isAuthenticated } = useAuthentication();
   const history = useHistory();
@@ -26,9 +26,8 @@ export const Profile = () => {
       .catch((e) => console.error(e));
     setEditUserInfo(false);
   }, [editUserInfo]);
-  console.log(detail?.authorities[0]['authority']);
 
-
+  console.log(detail);
   useEffect(() => {
     if (!isAuthenticated) {
       history.push('/');
@@ -43,7 +42,6 @@ export const Profile = () => {
     dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
   };
-
 
   const editSessionInfo = () => {
     setSessionInfo(true);
@@ -65,8 +63,7 @@ export const Profile = () => {
           <div className="card text-center">
             <div className="card-header">
               <h3>Welcome</h3>
-              <ProfileImage width="200" height="200" alt={`${detail?.username} profile picture`}
-                            image={detail?.image} />
+              <ProfileImage width="200" height="200" alt={`${detail?.username} profile picture`} image={detail?.image} />
             </div>
             <h5>
               <div>
@@ -112,23 +109,11 @@ export const Profile = () => {
             <Button className="btn  btn-success mt-2" disabled={sessionInfo} onClick={editSessionInfo}>
               Session Info
             </Button>
-            {detail?.authorities[0]['authority']==='ROLE_USER' ? (
-              <>
-                <Button className="btn  btn-success mt-2" disabled={writerInfo} onClick={editWriterInfo}>
-                  Become a writer
-                </Button>
-              </>
-            ) : null}
-            {detail?.authorities[0]['authority']==='ROLE_PM' ? (
-              <>
-                <>
-                  <Button className="btn  btn-success mt-2" disabled={writerInfo} onClick={editWriterInfo}>
-                    Yeni Konu Oluştur
-                  </Button>
-                </>
-              </>
-            ) : null}
-
+            <Button className="btn  btn-success mt-2" disabled={writerInfo} onClick={editWriterInfo}>
+              {detail?.authorities[0]['authority'] === 'ROLE_USER' ? <>Become a writer</> : null}
+              {detail?.authorities[0]['authority'] === 'ROLE_ADMIN' ? <>Admin</> : null}
+              {detail?.authorities[0]['authority'] === 'ROLE_PM' ? <>Yeni Konu Oluştur</> : null}
+            </Button>
           </div>
         </Col>
         <Col sm={6}>
@@ -173,12 +158,21 @@ export const Profile = () => {
             </>
           ) : null}
 
-          {writerInfo  ? (
+          {writerInfo ? (
             <>
               <Button className="btn btn-danger mb-3" disabled={!writerInfo} onClick={() => setWriterInfo(false)}>
                 <FontAwesomeIcon icon={faTimes} />
               </Button>
-              <Writer/>
+              {detail?.authorities[0]['authority'] === 'ROLE_USER' ? (
+                <>
+                  <Writer />
+                </>
+              ) : null}
+              {detail?.authorities[0]['authority'] === 'ROLE_ADMIN' ? (
+                <>
+                  <AdminWriterConfirmation />
+                </>
+              ) : null}
             </>
           ) : null}
         </Col>
