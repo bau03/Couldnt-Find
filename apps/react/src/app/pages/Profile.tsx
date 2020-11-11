@@ -27,7 +27,6 @@ export const Profile = () => {
     setEditUserInfo(false);
   }, [editUserInfo]);
 
-  console.log(detail);
   useEffect(() => {
     if (!isAuthenticated) {
       history.push('/');
@@ -47,6 +46,7 @@ export const Profile = () => {
     setSessionInfo(true);
     setInChangePassword(false);
     setInEditMode(false);
+    setWriterInfo(false);
   };
   const editWriterInfo = () => {
     setSessionInfo(false);
@@ -99,6 +99,7 @@ export const Profile = () => {
               onClick={() => {
                 setInChangePassword(true);
                 setInEditMode(false);
+                setWriterInfo(false);
                 dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
                 dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
                 setSessionInfo(false);
@@ -109,11 +110,13 @@ export const Profile = () => {
             <Button className="btn  btn-success mt-2" disabled={sessionInfo} onClick={editSessionInfo}>
               Session Info
             </Button>
-            <Button className="btn  btn-success mt-2" disabled={writerInfo} onClick={editWriterInfo}>
-              {detail?.authorities[0]['authority'] === 'ROLE_USER' ? <>Become a writer</> : null}
-              {detail?.authorities[0]['authority'] === 'ROLE_ADMIN' ? <>Admin</> : null}
-              {detail?.authorities[0]['authority'] === 'ROLE_PM' ? <>Yeni Konu Oluştur</> : null}
-            </Button>
+            {detail?.authorities[0] ? (
+              <Button className="btn  btn-success mt-2" disabled={writerInfo} onClick={editWriterInfo}>
+                {detail?.authorities[0]['authority'] === 'ROLE_USER' ? <>Become a writer</> : null}
+                {detail?.authorities[0]['authority'] === 'ROLE_ADMIN' ? <>Admin</> : null}
+                {detail?.authorities[0]['authority'] === 'ROLE_PM' ? <>Yeni Konu Oluştur</> : null}
+              </Button>
+            ) : null}
           </div>
         </Col>
         <Col sm={6}>

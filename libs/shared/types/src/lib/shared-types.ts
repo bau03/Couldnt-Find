@@ -20,6 +20,7 @@ export interface UpdateRequest {
 
 export interface RoleUpdateRequest {
   id: string;
+  writerid:string;
 }
 
 export interface RegisterRequest {
