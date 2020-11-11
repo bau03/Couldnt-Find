@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { AdminWriterConfirmation, EditProfile, ChangePassword, EditSession, Writer } from './profilePageComponents';
+import {
+  CreateContent,
+  AdminWriterConfirmation,
+  EditProfile,
+  ChangePassword,
+  EditSession,
+  Writer} from './profilePageComponents';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { api, UserDetailResponse } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
@@ -114,7 +120,7 @@ export const Profile = () => {
               <Button className="btn  btn-success mt-2" disabled={writerInfo} onClick={editWriterInfo}>
                 {detail?.authorities[0]['authority'] === 'ROLE_USER' ? <>Become a writer</> : null}
                 {detail?.authorities[0]['authority'] === 'ROLE_ADMIN' ? <>Admin</> : null}
-                {detail?.authorities[0]['authority'] === 'ROLE_PM' ? <>Yeni Konu Oluştur</> : null}
+                {detail?.authorities[0]['authority'] === 'ROLE_PM' ? <>Create Content</> : null}
               </Button>
             ) : null}
           </div>
@@ -174,6 +180,11 @@ export const Profile = () => {
               {detail?.authorities[0]['authority'] === 'ROLE_ADMIN' ? (
                 <>
                   <AdminWriterConfirmation />
+                </>
+              ) : null}
+              {detail?.authorities[0]['authority'] === 'ROLE_PM' ? (
+                <>
+                  <CreateContent/>
                 </>
               ) : null}
             </>

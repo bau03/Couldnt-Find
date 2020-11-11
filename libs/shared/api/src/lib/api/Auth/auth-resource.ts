@@ -42,4 +42,5 @@ export class AuthResource {
   writerUser = (data: WriterRequest): Promise<any> => this.axios.post('user/writer', data, this.axiosRequestConfig).then((r) => r.data);
   writerDetail = (): Promise<WriterDetailResponse> => this.axios.get('user/writer/detail', this.axiosRequestConfig).then((r) => r.data);
   userRoleUpdate = (data: any): Promise<any> => this.axios.put('user/writer/edit', data, this.axiosRequestConfig).then((r) => r.data);
+  createContent = (data: WriterRequest): Promise<any> => this.axios.post('/content/register', data, this.axiosRequestConfig).then((r) => r.data);
 }

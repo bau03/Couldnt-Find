@@ -55,3 +55,8 @@ export interface WriterRequest {
   education: string;
   biography: string;
 }
+
+export interface ContentRequest {
+  content: string;
+  categoryId: string;
+}
