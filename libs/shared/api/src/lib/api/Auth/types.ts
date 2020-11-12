@@ -24,3 +24,14 @@ export interface  SessionDetailResponse {
   expireDate: string;
   issueDate: string;
 }
+
+export interface ContentDetailResponse {
+  content:any;
+  last:boolean;
+  first:boolean;
+}
+
+export interface CategoryDetailResponse {
+  id:any;
+  categoryName:any;
+}
