@@ -7,7 +7,6 @@ export const CategoryContentPage = () => {
 
   return (
     <Container>
-      <h3>{categoryName}</h3>
       <Contents categoryName={categoryName} />
     </Container>
   );

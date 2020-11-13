@@ -42,4 +42,5 @@ export interface ContentsDetailResponse {
   timestap: string;
   id: string;
   user: any;
+  contentHeader:string;
 }

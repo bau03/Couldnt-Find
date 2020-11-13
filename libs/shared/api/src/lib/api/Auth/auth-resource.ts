@@ -56,4 +56,6 @@ export class AuthResource {
   categoryContentPage = (id, page = 0): Promise<ContentDetailResponse> =>
     this.axios.get(`/content/contents/${id}?currentPage=` + page, this.axiosRequestConfig).then((r) => r.data);
   contentPage = (id): Promise<ContentsDetailResponse[]> => this.axios.get(`/content/view/${id}`, this.axiosRequestConfig).then((r) => r.data);
+  like = (id): Promise<any> => this.axios.post(`/content/like/${id}`,  this.axiosRequestConfig).then((r) => r.data);
+  dislike = (id): Promise<any> => this.axios.post(`/content/dislike/${id}`,  this.axiosRequestConfig).then((r) => r.data);
 }
