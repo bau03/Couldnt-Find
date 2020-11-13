@@ -6,7 +6,7 @@ export interface UserDetailResponse {
   phoneNumber: string;
   age: string;
   image: string;
-  authorities:string;
+  authorities: string;
 }
 export interface WriterDetailResponse {
   id: string;
@@ -14,10 +14,10 @@ export interface WriterDetailResponse {
   education: string;
   biography: string;
   timestap: string;
-  user:string;
+  user: string;
 }
 
-export interface  SessionDetailResponse {
+export interface SessionDetailResponse {
   refreshToken: string;
   accessToken: string;
   userAgent: string;
@@ -26,12 +26,20 @@ export interface  SessionDetailResponse {
 }
 
 export interface ContentDetailResponse {
-  content:any;
-  last:boolean;
-  first:boolean;
+  content: any;
+  last: boolean;
+  first: boolean;
 }
 
 export interface CategoryDetailResponse {
-  id:any;
-  categoryName:any;
+  id: any;
+  categoryName: any;
+}
+
+export interface ContentsDetailResponse {
+  content: string;
+  category: any;
+  timestap: string;
+  id: string;
+  user: any;
 }

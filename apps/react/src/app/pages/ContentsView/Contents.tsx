@@ -10,7 +10,6 @@ type ContentsProps = {
 export const Contents: React.FC<ContentsProps> = ({ categoryName }) => {
   const [detail, setDetail] = useState<ContentDetailResponse>();
   const [page, setPage] = useState({ number: 0 });
-  console.log(categoryName);
   useEffect(() => {
     if (categoryName) {
       api.auth
@@ -19,7 +18,7 @@ export const Contents: React.FC<ContentsProps> = ({ categoryName }) => {
         .catch((e) => console.error(e));
     } else {
       api.auth
-        .contentPage(page.number)
+        .contentsPage(page.number)
         .then((r) => setDetail(r))
         .catch((e) => console.error(e));
     }
@@ -50,7 +49,7 @@ export const Contents: React.FC<ContentsProps> = ({ categoryName }) => {
                 </Row>
               </div>
               <div className="p-1">{content.content}</div>
-              <Link className="btn btn-sm mt-2" variant="outline-primary" to={'/content'}>
+              <Link className="btn btn-sm mt-2" variant="outline-primary" to={'/content/'+content.id}>
                 {' '}
                 <b>Daha Fazlası..</b>
               </Link>

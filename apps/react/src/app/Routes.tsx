@@ -15,6 +15,7 @@ import {
   Profile,
   Register,
   ResetPassword,
+  ContentMorePage,
 } from './pages';
 
 export const Routes = ({ children, ...props }) => {
@@ -29,7 +30,7 @@ export const Routes = ({ children, ...props }) => {
       <Route path="/profile" component={Profile} />
       <Route path="/contents" component={ContentViewingPage} />
       <Route path="/category/:categoryName" component={CategoryContentPage} />
-      <Route path="/content" component={ContentMore} />
+      <Route path="/content/:contentId" component={ContentMorePage} />
       <Route path="/auth" component={OAuth2RedirectHandler} />
       <Route exact path="/mailsuccess" component={MailSuccessPage} />
       <Route exact path="/mailerror" component={MailErrorPage} />

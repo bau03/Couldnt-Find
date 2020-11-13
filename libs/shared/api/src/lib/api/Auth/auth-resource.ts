@@ -1,5 +1,12 @@
 import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { CategoryDetailResponse, ContentDetailResponse, SessionDetailResponse, UserDetailResponse, WriterDetailResponse } from './types';
+import {
+  CategoryDetailResponse,
+  ContentDetailResponse,
+  ContentsDetailResponse,
+  SessionDetailResponse,
+  UserDetailResponse,
+  WriterDetailResponse,
+} from './types';
 import {
   ChangePasswordRequest,
   ForgotPasswordRequest,
@@ -43,9 +50,10 @@ export class AuthResource {
   writerDetail = (): Promise<WriterDetailResponse> => this.axios.get('user/writer/detail', this.axiosRequestConfig).then((r) => r.data);
   userRoleUpdate = (data: any): Promise<any> => this.axios.put('user/writer/edit', data, this.axiosRequestConfig).then((r) => r.data);
   createContent = (data: WriterRequest): Promise<any> => this.axios.post('/content/register', data, this.axiosRequestConfig).then((r) => r.data);
-  contentPage = (page = 0): Promise<ContentDetailResponse> =>
+  contentsPage = (page = 0): Promise<ContentDetailResponse> =>
     this.axios.get('/content/contents?currentPage=' + page, this.axiosRequestConfig).then((r) => r.data);
   categoryPage = (): Promise<CategoryDetailResponse[]> => this.axios.get('/content/category', this.axiosRequestConfig).then((r) => r.data);
   categoryContentPage = (id, page = 0): Promise<ContentDetailResponse> =>
     this.axios.get(`/content/contents/${id}?currentPage=` + page, this.axiosRequestConfig).then((r) => r.data);
+  contentPage = (id): Promise<ContentsDetailResponse[]> => this.axios.get(`/content/view/${id}`, this.axiosRequestConfig).then((r) => r.data);
 }

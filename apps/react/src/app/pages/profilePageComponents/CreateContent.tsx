@@ -7,7 +7,6 @@ import { contentAsync } from '@internship/store/authentication';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTemporary } from '@internship/shared/hooks';
-import { CgSelect, GiSelect } from 'react-icons/all';
 
 export const CreateContent = () => {
   const { handleSubmit, register, getValues } = useForm();
