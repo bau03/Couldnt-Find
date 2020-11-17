@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { api, ContentDetailResponse } from '@internship/shared/api';
 import { Button } from '@internship/ui';
 import { Link } from 'react-router-dom';
+import {format} from 'timeago.js';
 type ContentsProps = {
   categoryName;
 };
@@ -32,24 +33,29 @@ export const Contents: React.FC<ContentsProps> = ({ categoryName }) => {
               <div className="card-header">
                 <Row>
                   <Col sm={10}>
-                    <h4>
-                      <b className="text-black-50">Konu Başlığı</b>
-                    </h4>
+                    <Link className="btn  mt-2" to={'/content/' + content.id}>
+                      <h4 className="ml-n4">
+                        <b>{content.contentHeader}</b>
+                      </h4>
+                    </Link>
                   </Col>
-                  <b className="text-black-50">{content.category.categoryName}</b>
+                  <Link className="nav-link" to={'/category/' + content.category.id}>
+                    <b className="text-primary ml-n3">{content.category.categoryName}</b>
+                  </Link>
                 </Row>
                 <Row>
                   <Col sm={10}>
-                    <b className="text-black-50">{content.user.username}</b>
+                    <b className="text-black-50 ml-n3">{content.user.name} </b>
+                    <b className="text-black-50">{content.user.lastname} </b>
                   </Col>
                   <b className="text-black-50">Beğeni Bilgisi</b>
                 </Row>
                 <Row className="justify-content-md-center">
-                  <b className="text-black-50">{content.timestap}</b>
+                  <b className="text-black-50">{format(content.timestap)}</b>
                 </Row>
               </div>
               <div className="p-1">{content.content}</div>
-              <Link className="btn btn-sm mt-2" variant="outline-primary" to={'/content/'+content.id}>
+              <Link className="btn btn-sm mt-2" variant="outline-primary" to={'/content/' + content.id}>
                 {' '}
                 <b>Daha Fazlası..</b>
               </Link>

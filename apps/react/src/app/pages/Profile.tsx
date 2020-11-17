@@ -184,7 +184,7 @@ export const Profile = () => {
               ) : null}
               {detail?.authorities[0]['authority'] === 'ROLE_PM' ? (
                 <>
-                  <CreateContent/>
+                  <CreateContent setWriterInfo={setWriterInfo}/>
                 </>
               ) : null}
             </>
