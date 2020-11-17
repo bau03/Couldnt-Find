@@ -58,6 +58,5 @@ export interface WriterRequest {
 
 export interface ContentRequest {
   content: string;
-  contentHeader:string;
   categoryId: string;
 }
