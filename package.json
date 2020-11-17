@@ -6,7 +6,7 @@
     "nx": "nx",
     "start": "nx serve",
     "storybook": "nx run ui:storybook",
-    "build": "nx build",
+    "build": "nx build api --prod",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
@@ -102,8 +102,5 @@
     "typesafe-actions": "^5.1.0",
     "typescript": "~3.9.3",
     "url-loader": "^3.0.0"
-  },
-  "scripts": {
-    "start": "node index.js"
   }
 }
