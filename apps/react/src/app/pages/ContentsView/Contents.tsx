@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { api, ContentDetailResponse } from '@internship/shared/api';
 import { Button } from '@internship/ui';
 import { Link } from 'react-router-dom';
-import {format} from 'timeago.js';
+import { format } from 'timeago.js';
+import { faComment, faHeart, faHeartBroken } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 type ContentsProps = {
   categoryName;
 };
@@ -11,6 +13,7 @@ type ContentsProps = {
 export const Contents: React.FC<ContentsProps> = ({ categoryName }) => {
   const [detail, setDetail] = useState<ContentDetailResponse>();
   const [page, setPage] = useState({ number: 0 });
+
   useEffect(() => {
     if (categoryName) {
       api.auth
@@ -23,7 +26,8 @@ export const Contents: React.FC<ContentsProps> = ({ categoryName }) => {
         .then((r) => setDetail(r))
         .catch((e) => console.error(e));
     }
-  }, [page.number]);
+  }, [page.number || categoryName]);
+
   return (
     <div>
       {detail?.content?.map((content) => {
@@ -48,13 +52,21 @@ export const Contents: React.FC<ContentsProps> = ({ categoryName }) => {
                     <b className="text-black-50 ml-n3">{content.user.name} </b>
                     <b className="text-black-50">{content.user.lastname} </b>
                   </Col>
-                  <b className="text-black-50">Beğeni Bilgisi</b>
+                  <b className="text-black-50 ">
+                    <FontAwesomeIcon className="small" icon={faHeart} /> {content.content_like_number}{' '}
+                  </b>
+                  <b className="text-black-50 ml-2">
+                    <FontAwesomeIcon className="small" icon={faHeartBroken} /> {content.content_dislike_number}
+                  </b>
+                  <b className="text-black-50 ml-2 ">
+                    <FontAwesomeIcon className="small" icon={faComment} /> {content.comment_number}
+                  </b>
                 </Row>
                 <Row className="justify-content-md-center">
                   <b className="text-black-50">{format(content.timestap)}</b>
                 </Row>
               </div>
-              <div className="p-1">{content.content}</div>
+              <div className={content.content.length > 100 ? 'p-1 text-truncate' : 'p-1'}>{content.content}</div>
               <Link className="btn btn-sm mt-2" variant="outline-primary" to={'/content/' + content.id}>
                 {' '}
                 <b>Daha Fazlası..</b>

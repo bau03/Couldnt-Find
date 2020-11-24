@@ -10,10 +10,11 @@ import {
   writerAsync,
   roleupdateAsync,
   contentAsync,
+  commentAsync,
 } from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { api } from '@internship/shared/api';
-import { removeAccessToken, removeRefreshToken } from '@internship/shared/utils';
+import { removeAccessToken, removeRefreshToken, removeUserName } from '@internship/shared/utils';
 
 function* doLogin({ payload }) {
   try {
@@ -43,6 +44,15 @@ function* doCreateContent({ payload }) {
     yield put(contentAsync.failure(e));
   }
 }
+function* doCreateComment({ payload }) {
+  try {
+    yield call(api.auth.createComment, payload);
+    yield put(commentAsync.success({}));
+  } catch (e) {
+    console.error(e);
+    yield put(commentAsync.failure(e));
+  }
+}
 function* doResetPassword({ payload }) {
   try {
     yield call(api.auth.resetPassword, payload);
@@ -61,7 +71,6 @@ function* doForgotPassword({ payload }) {
     yield put(forgotpasswordAsync.failure(e));
   }
 }
-
 function doUpdateLogout() {
   if (localStorage.getItem('access_token')) {
     localStorage.removeItem('cloud_users');
@@ -69,7 +78,6 @@ function doUpdateLogout() {
     removeRefreshToken();
   }
 }
-
 function* doLogout({ payload }) {
   try {
     yield call(api.auth.logout, payload);
@@ -78,13 +86,13 @@ function* doLogout({ payload }) {
       localStorage.removeItem('cloud_users');
       removeAccessToken();
       removeRefreshToken();
+      removeUserName();
     }
   } catch (e) {
     console.error(e);
     yield put(logoutAsync.failure(e));
   }
 }
-
 function* doRegister({ payload }) {
   try {
     yield call(api.auth.register, payload);
@@ -94,7 +102,6 @@ function* doRegister({ payload }) {
     yield put(registerAsync.failure(e));
   }
 }
-
 function* doUpdate({ payload }) {
   try {
     /* let requestData = {};
@@ -106,7 +113,6 @@ function* doUpdate({ payload }) {
     yield put(updateAsync.failure(e));
   }
 }
-
 function* doUserRoleUpdate({ payload }) {
   try {
     yield call(api.auth.userRoleUpdate, payload);
@@ -116,7 +122,6 @@ function* doUserRoleUpdate({ payload }) {
     yield put(roleupdateAsync.failure(e));
   }
 }
-
 function* doChangePassword({ payload }) {
   try {
     yield call(api.auth.changePassword, payload);
@@ -135,6 +140,9 @@ function* watchWriter() {
 }
 function* watchCreateContent() {
   yield takeLatest(contentAsync.request, doCreateContent);
+}
+function* watchCreateComment() {
+  yield takeLatest(commentAsync.request, doCreateComment);
 }
 function* watchResetPassword() {
   yield takeLatest(resetpasswordAsync.request, doResetPassword);
@@ -175,5 +183,6 @@ export function* authenticationSaga() {
     fork(watchWriter),
     fork(watchRoleUpdate),
     fork(watchCreateContent),
+    fork(watchCreateComment),
   ]);
 }

@@ -2,30 +2,70 @@ import React, { useEffect, useState } from 'react';
 import { api, ContentsDetailResponse } from '@internship/shared/api';
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import {format} from 'timeago.js';
-import { Button } from '@internship/ui';
+import { format } from 'timeago.js';
+import { ContentLike } from '@internship/ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment, faHeart, faHeartBroken } from '@fortawesome/free-solid-svg-icons';
+import { getUserName } from '@internship/shared/utils';
+import { useAuthentication } from '@internship/shared/hooks';
+import { CommentView, CreateComment } from '../Comment';
+
 type ContentMoreProps = {
   contentId;
 };
 
 export const ContentMore: React.FC<ContentMoreProps> = ({ contentId }) => {
   const [detail, setDetail] = useState<ContentsDetailResponse[]>();
+  const [likeEnable, setLikeEnable] = useState(true);
+  const { isAuthenticated } = useAuthentication();
+
   useEffect(() => {
     api.auth
       .contentPage(contentId)
       .then((r) => setDetail(r))
       .catch((e) => console.error(e));
+    setLikeEnable(true);
+  }, [likeEnable]);
+
+  const onClickLike = () => {
+    api.auth.like(contentId);
+    setLikeEnable(!likeEnable);
+  };
+
+  const onClickDislike = () => {
+    api.auth.dislike(contentId);
+    setLikeEnable(!likeEnable);
+  };
+
+
+  const [past, setPast] = useState({ content: [], last: true });
+  const [page, setPage] = useState({ number: 0 });
+
+  const createComment = (buttonClick,commentlikebutton,commentbackbutton) => {
+    buttonClick && setPage({ number: page.number=0 });
+    api.auth
+      .commentPage(contentId, page.number, 3)
+      .then((r) =>
+        setPast((previous) => ({
+          ...r,
+          content:buttonClick ? [...r?.content] : commentlikebutton?[...r?.content]: commentbackbutton?[...r?.content]:[...previous?.content, ...r?.content],
+        }))
+      )
+      .catch((e) => console.error(e));
+  };
+
+  useEffect(() => {
+    createComment(null,null,null);
   }, []);
 
-  const onClickLike=()=>{
-    api.auth.like(contentId);
+  const onClickNextComment = () => {
+    setPage({ number: page.number=page.number+1 });
+    createComment(null,null,null)
   };
-
-  const onClickDislike=()=>{
-    api.auth.dislike(contentId);
+  const onClickBackComment = () => {
+    setPage({ number: page.number=page.number-1 });
+    createComment(null,null,true)
   };
-
-  console.log(detail);
   return (
     <div>
       {detail?.map((d, key) => (
@@ -46,17 +86,65 @@ export const ContentMore: React.FC<ContentMoreProps> = ({ contentId }) => {
                 <b className="text-black-50 ml-n3">{d.user.name} </b>
                 <b className="text-black-50 ">{d.user.lastname} </b>
               </Col>
-              <b className="text-black-50">Beğeni Bilgisi</b>
+              <b className="text-black-50">{d.userLike.username}</b>
+              <Row>
+                <b className="text-black-50">
+                  <FontAwesomeIcon icon={faHeart} /> {d.content_like_number}{' '}
+                </b>
+                <b className="text-black-50 ml-2">
+                  <FontAwesomeIcon icon={faHeartBroken} /> {d.content_dislike_number}
+                </b>
+                <b className="text-black-50 ml-2">
+                  <FontAwesomeIcon className="small" icon={faComment} /> {d.comment_number}
+                </b>
+              </Row>
             </Row>
             <Row className="justify-content-md-center">
               <b className="text-black-50">{format(d.timestap)}</b>
             </Row>
           </div>
           <div className="p-1">{d.content}</div>
+          <hr/>
+          {isAuthenticated ? (
+            <Row className="ml-1 mt-2">
+              {d.userLike.some((element) => element.username === getUserName()) ||
+              d.userDislike.some((element) => element.username === getUserName()) ? (
+                <>
+                  <ContentLike
+                    onClick={onClickLike}
+                    disabled={d.userDislike.some((element) => element.username === getUserName())}
+                    variant={d.userLike.some((element) => element.username === getUserName()) ? 'outline-danger' : 'outline-dark'}
+                  >
+                    <FontAwesomeIcon icon={faHeart} />
+                  </ContentLike>
+                  <ContentLike
+                    onClick={onClickDislike}
+                    disabled={d.userLike.some((element) => element.username === getUserName())}
+                    variant={d.userDislike.some((element) => element.username === getUserName()) ? 'outline-danger' : 'outline-dark'}
+                  >
+                    <FontAwesomeIcon icon={faHeartBroken} />
+                  </ContentLike>
+                </>
+              ) : (
+                <>
+                  <ContentLike onClick={onClickLike}>
+                    <FontAwesomeIcon icon={faHeart} />
+                  </ContentLike>
+                  <ContentLike onClick={onClickDislike}>
+                    <FontAwesomeIcon icon={faHeartBroken} />
+                  </ContentLike>
+                </>
+              )}
+              <CommentView  past={past} onClickNextComment={onClickNextComment} onClickBackComment={onClickBackComment} createComment={createComment} />
+              <CreateComment
+                contentId={contentId}
+                setLikeEnable={setLikeEnable}
+                handleCreateComment={createComment}
+              />
+            </Row>
+          ) : null}
         </div>
       ))}
-      <Button onClick={onClickLike}>Beğen</Button>
-      <Button onClick={onClickDislike}>Beğenme</Button>
     </div>
   );
 };

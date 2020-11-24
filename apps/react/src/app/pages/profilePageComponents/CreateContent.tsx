@@ -1,6 +1,6 @@
 import { Accordion, Alert, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import React, { useState } from 'react';
-import { Button, Input, Popup, PopupButton } from '@internship/ui';
+import { Button, Input, Popup} from '@internship/ui';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { contentAsync } from '@internship/store/authentication';
@@ -58,10 +58,11 @@ export const CreateContent: React.FC<CreateContentProps> = ({ setWriterInfo }) =
               </Col>
               <Col>
                 <Form.Control className="form-control mt-2" as="select" name="categoryId" ref={register({ required: true })}>
-                  <option value="1">Sağlık</option>
-                  <option value="2">Bilim</option>
-                  <option value="3">Teknoloji</option>
-                  <option value="4">Oyun</option>
+                  <option value="1">Bilim</option>
+                  <option value="2">Teknoloji</option>
+                  <option value="3">Oyun</option>
+                  <option value="4">Eğitim</option>
+                  <option value="5">Sağlık</option>
                 </Form.Control>
               </Col>
             </Form.Group>

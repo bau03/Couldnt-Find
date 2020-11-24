@@ -2,6 +2,7 @@ import { createAction, createAsyncAction } from 'typesafe-actions';
 import { AxiosError } from 'axios';
 import {
   ChangePasswordRequest,
+  CommentRequest,
   ContentRequest,
   ForgotPasswordRequest,
   LoginRequest,
@@ -33,6 +34,12 @@ export const writerAsync = createAsyncAction('@Authentication/WRİTER_REQUEST', 
 
 export const contentAsync = createAsyncAction('@Authentication/CONTENT_REQUEST', '@Authentication/CONTENT_SUCCESS', '@Authentication/CONTENT_FAILURE')<
   ContentRequest,
+  any,
+  AxiosError
+  >();
+
+export const commentAsync = createAsyncAction('@Authentication/COMMENT_REQUEST', '@Authentication/COMMENT_SUCCESS', '@Authentication/COMMENT_FAILURE')<
+  CommentRequest,
   any,
   AxiosError
   >();

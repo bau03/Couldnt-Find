@@ -42,5 +42,16 @@ export interface ContentsDetailResponse {
   timestap: string;
   id: string;
   user: any;
-  contentHeader:string;
+  userLike: any;
+  userDislike: any;
+  content_like_number: any;
+  content_dislike_number: any;
+  comment_number:any;
+  contentHeader: string;
+}
+export interface CommentsDetailResponse {
+  comment: string;
+  timestap: string;
+  user: any;
+  id:any;
 }

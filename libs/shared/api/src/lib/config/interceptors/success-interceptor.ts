@@ -30,6 +30,12 @@ const success = {
   'user/writer/detail': {
     '200': null,
   },
+  '/comment/like/': {
+    '200': 'like',
+  },
+  '/comment/dislike/': {
+    '200': 'dislike',
+  },
 };
 export const successInterceptor = (res: AxiosResponse) => {
   let successMessage = null;
@@ -50,6 +56,10 @@ export const successInterceptor = (res: AxiosResponse) => {
     successMessage = success['user/writer']['200'];
   } else if (res?.config.url.startsWith('user/writer/edit') && res?.status === 200) {
     successMessage = success['user/writer/edit']['200'];
+  }else if (res?.config.url.startsWith('/comment/like/') && res?.status === 200) {
+    successMessage = success['/comment/like/']['200'];
+  }else if (res?.config.url.startsWith('/comment/dislike/') && res?.status === 200) {
+    successMessage = success['/comment/dislike/']['200'];
   }
 
   window['UGLY_STORE'].dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: successMessage });

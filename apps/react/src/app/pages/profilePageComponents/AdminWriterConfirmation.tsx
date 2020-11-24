@@ -52,19 +52,22 @@ export const AdminWriterConfirmation = () => {
         {detail ? (
     <>
       <Row>
-        <i className="text-black-50 ml-4"> Başvuru Yapan Kullanıcı Id: {detail?.user?.['id']}</i>
+        <i className="text-black-50 ml-4 mt-1"><b> Başvuru Yapan Kullanıcı Id:</b> {detail?.user?.['id']}</i>
       </Row>
       <Row>
-        <i className="text-black-50 ml-4"> Başvuru Yapan Kullanıcı Adı: {detail?.user?.['username']}</i>
+        <i className="text-black-50 ml-4 mt-1"><b> Başvuru Yapan Kullanıcı Adı:</b> {detail?.user?.['username']}</i>
       </Row>
       <Row>
-        <i className="text-black-50 ml-4"> Meslek: {detail?.job}</i>
+        <i className="text-black-50 ml-4 mt-1"><b> Meslek:</b> {detail?.job}</i>
       </Row>
       <Row>
-        <i className="text-black-50 ml-4"> Eğitim:{detail?.education}</i>
+        <i className="text-black-50 ml-4 mt-1"> <b>Eğitim:</b>{detail?.education}</i>
       </Row>
       <Row>
-        <i className="text-black-50 ml-4"> Başvuru Zamanı: {detail?.timestap}</i>
+        <i className="text-black-50 ml-4 mt-1"> <b>Biyografi:</b>{detail?.biography}</i>
+      </Row>
+      <Row>
+        <i className="text-black-50 ml-4 mt-1"> <b>Başvuru Zamanı:</b> {detail?.timestap}</i>
       </Row>
     </>
         ) : <Alert variant="warning">Henüz bir başvuru bulunmuyor</Alert> }

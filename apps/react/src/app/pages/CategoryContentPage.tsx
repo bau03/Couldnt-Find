@@ -1,13 +1,21 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { Contents } from './ContentsView';
+import { CategoryView, Contents } from './ContentsView';
 export const CategoryContentPage = () => {
   const { categoryName } = useParams();
 
   return (
     <Container>
-      <Contents categoryName={categoryName} />
+      <div>
+        <hr />
+      </div>
+      <Row>
+        <CategoryView />
+        <Col sm={8}>
+          <Contents categoryName={categoryName} />
+        </Col>
+      </Row>
     </Container>
   );
 };
