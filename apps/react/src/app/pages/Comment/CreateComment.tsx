@@ -6,25 +6,26 @@ import { faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { commentAsync } from '@internship/store/authentication';
+import { useTemporary } from '@internship/shared/hooks';
 
 type CreateCommentProps = {
   contentId;
-  setLikeEnable;
   handleCreateComment;
 };
 
-export const CreateComment: React.FC<CreateCommentProps> = ({ contentId,setLikeEnable,handleCreateComment}) => {
+export const CreateComment: React.FC<CreateCommentProps> = ({ contentId, handleCreateComment }) => {
   const { handleSubmit, register, errors, reset } = useForm();
   const dispatch = useDispatch();
-
+  const { isSuccessRequired } = useTemporary();
   const onSubmit = (values) => {
     values = { ...values, "content_id": contentId };
     dispatch(commentAsync.request(values));
-    setLikeEnable(false);
-    handleCreateComment(true);
+
     reset();
   };
-
+  if (isSuccessRequired === 'commentSuccess') {
+    handleCreateComment(true);
+  }
   return (
     <Container className="mt-3 mr-3">
       <Form onSubmit={handleSubmit(onSubmit)}>

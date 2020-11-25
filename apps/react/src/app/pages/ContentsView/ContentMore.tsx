@@ -7,65 +7,67 @@ import { ContentLike } from '@internship/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faHeart, faHeartBroken } from '@fortawesome/free-solid-svg-icons';
 import { getUserName } from '@internship/shared/utils';
-import { useAuthentication } from '@internship/shared/hooks';
+import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import { CommentView, CreateComment } from '../Comment';
-
+import { useDispatch } from 'react-redux';
 type ContentMoreProps = {
   contentId;
 };
 
 export const ContentMore: React.FC<ContentMoreProps> = ({ contentId }) => {
   const [detail, setDetail] = useState<ContentsDetailResponse[]>();
-  const [likeEnable, setLikeEnable] = useState(true);
   const { isAuthenticated } = useAuthentication();
-
+  const { isSuccessRequired } = useTemporary();
+  const dispatch = useDispatch();
+  const [past, setPast] = useState({ content: [], last: true });
+  const [page, setPage] = useState({ number: 0 });
   useEffect(() => {
     api.auth
       .contentPage(contentId)
       .then((r) => setDetail(r))
       .catch((e) => console.error(e));
-    setLikeEnable(true);
-  }, [likeEnable]);
+    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+  }, [isSuccessRequired === 'contentlike', isSuccessRequired === 'commentSuccess', isSuccessRequired === 'contentdislike']);
 
   const onClickLike = () => {
     api.auth.like(contentId);
-    setLikeEnable(!likeEnable);
   };
-
   const onClickDislike = () => {
     api.auth.dislike(contentId);
-    setLikeEnable(!likeEnable);
   };
 
-
-  const [past, setPast] = useState({ content: [], last: true });
-  const [page, setPage] = useState({ number: 0 });
-
-  const createComment = (buttonClick,commentlikebutton,commentbackbutton) => {
-    buttonClick && setPage({ number: page.number=0 });
+  const createComment = (buttonClick, commentlikebutton, commentbackbutton) => {
+    buttonClick && setPage({ number: page.number = 0 });
     api.auth
       .commentPage(contentId, page.number, 3)
       .then((r) =>
         setPast((previous) => ({
           ...r,
-          content:buttonClick ? [...r?.content] : commentlikebutton?[...r?.content]: commentbackbutton?[...r?.content]:[...previous?.content, ...r?.content],
+          content: buttonClick
+            ? [...r?.content]
+            : commentlikebutton
+            ? [...r?.content]
+            : commentbackbutton
+            ? [...r?.content]
+            : [...previous?.content, ...r?.content],
         }))
       )
       .catch((e) => console.error(e));
   };
 
   useEffect(() => {
-    createComment(null,null,null);
+    createComment(null, null, null);
   }, []);
 
   const onClickNextComment = () => {
-    setPage({ number: page.number=page.number+1 });
-    createComment(null,null,null)
+    setPage({ number: page.number = page.number + 1 });
+    createComment(null, null, null);
   };
   const onClickBackComment = () => {
-    setPage({ number: page.number=page.number-1 });
-    createComment(null,null,true)
+    setPage({ number: page.number = 0 });
+    createComment(null, null, true);
   };
+
   return (
     <div>
       {detail?.map((d, key) => (
@@ -104,7 +106,7 @@ export const ContentMore: React.FC<ContentMoreProps> = ({ contentId }) => {
             </Row>
           </div>
           <div className="p-1">{d.content}</div>
-          <hr/>
+          <hr />
           {isAuthenticated ? (
             <Row className="ml-1 mt-2">
               {d.userLike.some((element) => element.username === getUserName()) ||
@@ -135,12 +137,13 @@ export const ContentMore: React.FC<ContentMoreProps> = ({ contentId }) => {
                   </ContentLike>
                 </>
               )}
-              <CommentView  past={past} onClickNextComment={onClickNextComment} onClickBackComment={onClickBackComment} createComment={createComment} />
-              <CreateComment
-                contentId={contentId}
-                setLikeEnable={setLikeEnable}
-                handleCreateComment={createComment}
+              <CommentView
+                past={past}
+                onClickNextComment={onClickNextComment}
+                onClickBackComment={onClickBackComment}
+                createComment={createComment}
               />
+              <CreateComment contentId={contentId} handleCreateComment={createComment} />
             </Row>
           ) : null}
         </div>

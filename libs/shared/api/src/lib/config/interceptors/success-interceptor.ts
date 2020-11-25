@@ -36,6 +36,15 @@ const success = {
   '/comment/dislike/': {
     '200': 'dislike',
   },
+  '/content/like/': {
+    '200': 'contentlike',
+  },
+  '/content/dislike/': {
+    '200': 'contentdislike',
+  },
+  '/comment/commentregister': {
+    '200': 'commentSuccess',
+  },
 };
 export const successInterceptor = (res: AxiosResponse) => {
   let successMessage = null;
@@ -60,6 +69,13 @@ export const successInterceptor = (res: AxiosResponse) => {
     successMessage = success['/comment/like/']['200'];
   }else if (res?.config.url.startsWith('/comment/dislike/') && res?.status === 200) {
     successMessage = success['/comment/dislike/']['200'];
+  }
+  else if (res?.config.url.startsWith('/content/like/') && res?.status === 200) {
+    successMessage = success['/content/like/']['200'];
+  }else if (res?.config.url.startsWith('/content/dislike/') && res?.status === 200) {
+    successMessage = success['/content/dislike/']['200'];
+  }else if (res?.config.url.startsWith('/comment/commentregister') && res?.status === 200) {
+    successMessage = success['/comment/commentregister']['200'];
   }
 
   window['UGLY_STORE'].dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: successMessage });
