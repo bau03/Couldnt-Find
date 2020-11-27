@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-  CreateContent,
-  AdminWriterConfirmation,
-  EditProfile,
-  ChangePassword,
-  EditSession,
-  Writer} from './profilePageComponents';
+import { CreateContent, AdminWriterConfirmation, EditProfile, ChangePassword, EditSession, Writer } from './profilePageComponents';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { api, UserDetailResponse } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
-import { useAuthentication } from '@internship/shared/hooks';
+import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,6 +17,7 @@ export const Profile = () => {
   const [writerInfo, setWriterInfo] = useState(false);
   const [detail, setDetail] = useState<UserDetailResponse>();
   const { isAuthenticated } = useAuthentication();
+  const { isSuccessRequired } = useTemporary();
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -126,6 +121,11 @@ export const Profile = () => {
           </div>
         </Col>
         <Col sm={6}>
+          {isSuccessRequired === 'createContentSuccess' ? (
+            <div className="alert alert-success" role="alert">
+              Konu oluşturuldu.
+            </div>
+          ) : null}
           {inEditMode && (
             <>
               <Button
@@ -184,7 +184,7 @@ export const Profile = () => {
               ) : null}
               {detail?.authorities[0]['authority'] === 'ROLE_PM' ? (
                 <>
-                  <CreateContent setWriterInfo={setWriterInfo}/>
+                  <CreateContent setWriterInfo={setWriterInfo} />
                 </>
               ) : null}
             </>

@@ -91,7 +91,7 @@ export const ContentMore: React.FC<ContentMoreProps> = ({ contentId }) => {
               <b className="text-black-50">{d.userLike.username}</b>
               <Row>
                 <b className="text-black-50">
-                  <FontAwesomeIcon icon={faHeart} /> {d.content_like_number}{' '}
+                  <FontAwesomeIcon icon={faHeart} /> {d.contentLikeNumber}{' '}
                 </b>
                 <b className="text-black-50 ml-2">
                   <FontAwesomeIcon icon={faHeartBroken} /> {d.content_dislike_number}

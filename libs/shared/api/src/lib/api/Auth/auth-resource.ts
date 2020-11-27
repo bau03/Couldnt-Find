@@ -63,5 +63,7 @@ export class AuthResource {
   commentPage = (id,page,size=3): Promise<any> => this.axios.get(`/comment/commentget/${id}?currentPage=${page}&pageSize=${size}`, this.axiosRequestConfig).then((r) => r.data);
   commentlike = (id): Promise<any> => this.axios.put(`/comment/like/${id}`,  this.axiosRequestConfig).then((r) => r.data);
   commentdislike = (id): Promise<any> => this.axios.put(`/comment/dislike/${id}`,  this.axiosRequestConfig).then((r) => r.data);
+  searchContentHeaders = (contentHeader,page): Promise<any> => this.axios.get(`/content/search/${contentHeader}?currentPage=${page}`, this.axiosRequestConfig).then((r) => r.data);
+  trendContent = (page=0,size=3): Promise<any> => this.axios.get(`/content/trendContent/?currentPage=${page}&pageSize=${size}`, this.axiosRequestConfig).then((r) => r.data);
 
 }

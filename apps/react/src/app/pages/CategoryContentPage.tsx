@@ -13,7 +13,7 @@ export const CategoryContentPage = () => {
       <Row>
         <CategoryView />
         <Col sm={8}>
-          <Contents categoryName={categoryName} />
+          <Contents categoryName={categoryName} contentHeaders={null} />
         </Col>
       </Row>
     </Container>

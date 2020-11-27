@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { CategoryView, Contents } from './ContentsView';
-export const ContentViewingPage = () => {
+import { useParams } from 'react-router-dom';
+export const SearchPage = () => {
+  const { contentHeaders } = useParams();
   return (
     <Container>
       <div>
@@ -10,7 +12,7 @@ export const ContentViewingPage = () => {
       <Row>
         <CategoryView />
         <Col sm={8}>
-          <Contents categoryName={null} contentHeaders={null} />
+          <Contents categoryName={null} contentHeaders={contentHeaders} />
         </Col>
       </Row>
     </Container>

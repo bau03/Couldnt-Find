@@ -107,7 +107,7 @@ export const CreateContent: React.FC<CreateContentProps> = ({ setWriterInfo }) =
             <Button type="submit">Submit</Button>
           </Row>
         </Form>
-        {isSuccessRequired ? <Alert variant="success">{isSuccessRequired}</Alert> : null}
+
       </Popup>
     </Container>
   );

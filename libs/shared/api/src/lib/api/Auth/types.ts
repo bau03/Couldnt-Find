@@ -44,7 +44,7 @@ export interface ContentsDetailResponse {
   user: any;
   userLike: any;
   userDislike: any;
-  content_like_number: any;
+  contentLikeNumber: any;
   content_dislike_number: any;
   comment_number:any;
   contentHeader: string;

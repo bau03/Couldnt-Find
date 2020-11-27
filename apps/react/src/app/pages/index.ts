@@ -12,3 +12,4 @@ export * from './ContentsView';
 export * from './CategoryContentPage';
 export * from './ContentMorePage';
 export  * from './Comment'
+export * from './SearchPage'

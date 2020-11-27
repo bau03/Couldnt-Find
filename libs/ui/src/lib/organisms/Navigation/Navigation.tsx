@@ -148,7 +148,7 @@ export const Navigation = () => {
               </NavDropdown>
             )}
           </ul>
-          <Search />
+            <Search />
         </div>
       </div>
     </nav>

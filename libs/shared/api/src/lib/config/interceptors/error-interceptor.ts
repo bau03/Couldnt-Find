@@ -25,13 +25,16 @@ const err = {
   'auth/send-email': {
     '400': 'Bu mail ile uygun bir kullanıcı bulamadık. Lütfen kayıt olunuz.',
   },
+  '/content/search/': {
+    '400': 'searchFail',
+  },
 };
 export const errorInterceptor = (error: AxiosError) => {
-  console.log(error.response.data.message);
-  console.log(error.config.url);
   let errorMessage = null;
   if (error.response?.data.message.toString() === '108') {
     errorMessage = err[error.config.url]['108'];
+  } else if (error.response?.data.message.toString() === '300') {
+    errorMessage = err['/content/search/']['400'];
   } else if (error.response?.data.message.toString() === '109') {
     errorMessage = err[error.config.url]['109'];
   } else if (error.response?.data.message.toString() === '101') {

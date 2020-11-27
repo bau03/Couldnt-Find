@@ -15,6 +15,7 @@ import {
   Register,
   ResetPassword,
   ContentMorePage,
+  SearchPage,
 } from './pages';
 
 export const Routes = ({ children, ...props }) => {
@@ -35,6 +36,7 @@ export const Routes = ({ children, ...props }) => {
       <Route exact path="/mailerror" component={MailErrorPage} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Route path="/search/:contentHeaders" component={SearchPage} />
     </Router>
   );
 };

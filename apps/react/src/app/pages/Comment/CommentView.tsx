@@ -6,6 +6,7 @@ import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { api } from '@internship/shared/api';
 import { getUserName } from '@internship/shared/utils';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
+import { format } from 'timeago.js';
 
 type CommentViewProps = {
   past;
@@ -37,14 +38,14 @@ export const CommentView: React.FC<CommentViewProps> = ({ past, onClickNextComme
         </b>
       )}
       {past?.content?.map((d, key) => (
-        <div key={key} className="alert alert-secondary mr-3">
+        <div key={key} className="alert alert-secondary mr-1 rounded-lg">
           <Row className="ml-0">
             <Col className="ml-md-n1">
               <b className="mr-2">{d?.user?.name}</b>
               <b>{d?.user?.lastname}</b>
             </Col>
             <Col>
-              <b>{d?.timestap}</b>
+              <b className="ml-lg-5">{format(d?.timestap)}</b>
             </Col>
             <hr />
           </Row>

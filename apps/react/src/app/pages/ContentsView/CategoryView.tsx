@@ -12,7 +12,7 @@ export const CategoryView = () => {
       .catch((e) => console.error(e));
   }, []);
   return (
-    <Col sm={3}>
+    <Col sm={3} className="mt-2">
       <div className="card">
         <div className="card-header">
           <h4>
